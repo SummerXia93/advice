@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!--记录错误日志以及错误详情-->
+    <appender name="ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>./logs/mylog_all_error.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 每天一归档 -->
+            <fileNamePattern>./logs/mylog_all_error.%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 30天的日志周期，最大不能超过3GB -->
+            <maxFileSize>500MB</maxFileSize>
+            <maxHistory>12</maxHistory>
+            <totalSizeCap>6GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<root level="ERROR">
+		<appender-ref ref="ERROR"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
